@@ -1,17 +1,26 @@
-import "./App.css";
-import { Login } from "./pages/Auth/login";
+import React from "react";
 import Register from "./pages/Auth/Register";
-import { Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Login from "./pages/Auth/Login";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <>
+    <Router>
       <Routes>
+      <Route
+          index
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }/>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
-    </>
+    </Router>
   );
-}
+};
 
 export default App;

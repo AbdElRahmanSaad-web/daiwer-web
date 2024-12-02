@@ -7,7 +7,6 @@ import Login from "./pages/Auth/Login";
 
 const App: React.FC = () => {
   return (
-    <Router>
       <Routes>
       <Route
           index
@@ -19,7 +18,6 @@ const App: React.FC = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
-    </Router>
   );
 };
 

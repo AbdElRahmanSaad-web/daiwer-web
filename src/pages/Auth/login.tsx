@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import type { FormProps } from 'antd';
-import { Button, Form, Input, message } from 'antd';
+import { Button, Form, Input, message, Col, Row } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/DAIWER.png';
 
@@ -81,67 +81,77 @@ const Login: React.FC = () => {
 
     return (
         <div
-            style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '100vh',
-                backgroundColor: '#f5f5f5',
-                padding: '10px',
-            }}
+          style={{
+            display: 'grid',
+            placeItems: 'center',
+            height: '100vh',
+            padding: '10px',
+          }}
         >
-            <div
-                style={{
-                    background: '#fff',
-                    padding: '30px',
-                    borderRadius: '10px',
-                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-                    width: '90%',
-                    maxWidth: '400px',
-                }}
-            >
-                <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-                    <img
-                        src={logo}
-                        alt="Logo"
-                        style={{ width: '120px', borderRadius: '50%' }}
-                    />
-                </div>
-                <Form
-                    name="login-form"
-                    labelCol={{ span: 8 }}
-                    wrapperCol={{ span: 16 }}
-                    style={{ maxWidth: 600 }}
-                    initialValues={{ remember: true }}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    autoComplete="off"
-                >
-                    <Form.Item<FieldType>
-                        label="Email or Phone"
-                        name="email_phone"
-                        rules={[{ required: true, message: 'Please input your email or phone!' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item<FieldType>
-                        label="Password"
-                        name="password"
-                        rules={[{ required: true, message: 'Please input your password!' }]}
-                    >
-                        <Input.Password />
-                    </Form.Item>
-
-                    <Form.Item wrapperCol={{ span: 24 }}>
-                        <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-                            Submit
-                        </Button>
-                    </Form.Item>
-                </Form>
+          <div
+            style={{
+              background: '#fff',
+              padding: '30px',
+              borderRadius: '10px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+              maxWidth: '400px',
+              width: '100%',
+            }}
+          >
+            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+              <img src={logo} alt="Logo" style={{ width: '120px' }} />
             </div>
+            <Form
+             name="login-form"
+             labelCol={{ span: 8 }}
+             wrapperCol={{ span: 16 }}
+             style={{ maxWidth: 600 }}
+             initialValues={{ remember: true }}
+             onFinish={onFinish}
+             onFinishFailed={onFinishFailed}
+             autoComplete="off"
+            >
+              <Form.Item
+                label="Email or Phone"
+                name="email_phone"
+                rules={[{ required: true, message: 'Please input your email or phone!' }]}
+              >
+                <Input placeholder="Enter your email or phone" />
+              </Form.Item>
+    
+              <Form.Item
+                label="Password"
+                name="password"
+                rules={[{ required: true, message: 'Please input your password!' }]}
+              >
+                <Input.Password placeholder="Enter your password" />
+              </Form.Item>
+    
+              <Row gutter={16}>
+                <Col span={12}>
+                  <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+                    Login
+                  </Button>
+                </Col>
+                <Col span={12}>
+                  <Button
+                    type="default"
+                    style={{
+                      width: '100%',
+                      backgroundColor: '#73d13d',
+                      color: 'white',
+                      borderColor: '#73d13d',
+                    }}
+                    onClick={() => navigate('/register')}
+                  >
+                    Register
+                  </Button>
+                </Col>
+              </Row>
+            </Form>
+          </div>
         </div>
-    );
-};
-
-export default Login;
+      );
+    };
+    
+    export default Login;

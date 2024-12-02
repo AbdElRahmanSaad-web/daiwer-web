@@ -6,13 +6,13 @@ type ProtectedRouteProps = {
 };
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const isAuthenticated = !!localStorage.getItem("auth_token"); // تحقق من وجود auth token
+  const isAuthenticated = !!localStorage.getItem("auth_token");
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />; // إعادة التوجيه إلى صفحة تسجيل الدخول
+    return <Navigate to="/login" replace />;
   }
 
-  return children; // إذا كان مسجلاً الدخول، عرض المكون
+  return children;
 };
 
 export default ProtectedRoute;

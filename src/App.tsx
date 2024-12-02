@@ -1,4 +1,5 @@
 import React from "react";
+import Register from "./pages/Auth/Register";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -16,6 +17,7 @@ const App: React.FC = () => {
             </ProtectedRoute>
           }/>
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </Router>
   );

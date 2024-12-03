@@ -1,18 +1,18 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import DashboardLayout from '../components/DashboardLayout';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard: React.FC = () => {
+
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.removeItem("auth_token");
-    navigate("/Login");
-  };
+  
   return (
-    <>
+    <DashboardLayout>
       <h1>Welcome to the Dashboard</h1>
-      <button onClick={handleLogout}>logout</button>
-    </>
+    </DashboardLayout>
   );
 };
+
 export default Dashboard;
+

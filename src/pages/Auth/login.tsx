@@ -85,6 +85,7 @@ const Login: React.FC = () => {
             display: 'grid',
             placeItems: 'center',
             height: '100vh',
+            overflow: 'hidden',
             padding: '10px',
           }}
         >

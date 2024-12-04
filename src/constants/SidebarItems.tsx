@@ -10,7 +10,7 @@ const SidebarItems = [
     key: '4000',
     icon: React.createElement(UserOutlined),
     label: 'Users',
-    path: '/users', // Navigation path
+    path: '/users',
   }
 ];
 

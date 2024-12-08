@@ -1,6 +1,8 @@
-import { message, Table, TableColumnsType } from "antd";
+import { Button, message, Table, TableColumnsType } from "antd";
 import DashboardLayout from "../../components/DashboardLayout";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
 interface FetchedDataType {
   key: string;
@@ -15,6 +17,7 @@ interface FetchedDataType {
 }
 const Bin: React.FC = () => {
   const [bins, setBins] = useState<FetchedDataType[]>([]);
+  const [binsLength, setBinsLength] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [sortField, setSortField] = useState<string>("date");
   const [orderField, setOrderField] = useState<"desc" | "asc">("desc");
@@ -23,6 +26,8 @@ const Bin: React.FC = () => {
   const [isActiveField, setIsActiveField] = useState<"all" | "true" | "false">(
     "all"
   );
+  const navigate = useNavigate();
+
   const authToken = localStorage.getItem("auth_token");
   if (!authToken) {
     message.error("You are not authorized!");
@@ -60,6 +65,7 @@ const Bin: React.FC = () => {
             })
           );
           setBins(fetchedBins);
+          setBinsLength(result.data.total_count);
         } else {
           setBins([]);
         }
@@ -74,6 +80,10 @@ const Bin: React.FC = () => {
   useEffect(() => {
     fetchBins();
   }, [sortField, orderField, pageField, filterField, isActiveField]);
+
+  const handleCreateButton = () => {
+    navigate("/bins/create");
+  };
 
   const columns: TableColumnsType<FetchedDataType> = [
     {
@@ -132,7 +142,71 @@ const Bin: React.FC = () => {
       sorter: true,
       ellipsis: true,
     },
+    {
+      title: "Actions",
+      dataIndex: "actions",
+      key: "actions",
+      sorter: false,
+      ellipsis: false,
+      render: (_, record) => (
+        <div>
+          <EyeOutlined
+            style={{ color: "#1890ff", cursor: "pointer", marginRight: "10px" }}
+            onClick={() => handleView(record)}
+          />
+          <EditOutlined
+            style={{ color: "#52c41a", cursor: "pointer", marginRight: "10px" }}
+            onClick={() => handleEdit(record)}
+          />
+          <DeleteOutlined
+            style={{ color: "#ff4d4f", cursor: "pointer", marginRight: "10px" }}
+            onClick={() => handleDelete(record)}
+          />
+        </div>
+      ),
+    },
   ];
+
+  const handleView = (record: FetchedDataType) => {
+    navigate(`/bins/view/${record.key}`);
+  };
+
+  const handleEdit = (record: FetchedDataType) => {
+    navigate(`/bins/edit/${record.key}`);
+  };
+
+  const handleDelete = async (record: FetchedDataType) => {
+    const confirmed = window.confirm(
+      `Are you sure you want to delete "${record.bin_name}"?`
+    );
+    if (confirmed) {
+      try {
+        const response = await fetch(
+          `https://api.daiwer.com/api/v1.0/bins/${record.key}`,
+          {
+            method: "DELETE",
+            headers: {
+              // "Client-key": "S^M@Rt_B!N",
+              "Client-key": "Ph!no!icApp",
+              "Content-Type": "application/json",
+              "X-Auth": authToken,
+              Accept: "application/json",
+            },
+          }
+        );
+        const result = await response.json();
+        if (result.code === "0000") {
+          message.success("Bin deleted successfully!");
+          fetchBins(); // Refresh data after deletion
+        } else {
+          message.error("Failed to delete bin.");
+        }
+      } catch (error) {
+        console.log("error: ", error);
+        message.error("Error occurred while deleting bin.");
+      }
+    }
+  };
 
   const handleTableChange = (pagination: any, filter: any, sorter: any) => {
     setSortField(sorter.field || sortField);
@@ -141,7 +215,9 @@ const Bin: React.FC = () => {
   };
 
   return (
-    <DashboardLayout>
+    // <DashboardLayout>
+    <div>
+      <Button onClick={handleCreateButton}>Create</Button>
       <Table<FetchedDataType>
         columns={columns}
         dataSource={bins}
@@ -150,10 +226,11 @@ const Bin: React.FC = () => {
         pagination={{
           current: pageField,
           pageSize: 10,
-          total: bins.length,
+          total: binsLength,
         }}
       />
-    </DashboardLayout>
+    </div>
+    // </DashboardLayout>
   );
 };
 

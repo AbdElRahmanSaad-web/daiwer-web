@@ -6,6 +6,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Auth/login";
 import User from "./pages/User/User";
 import Bin from "./pages/Bins/Bin";
+import Create from "./pages/User/Create";
 
 const App: React.FC = () => {
   return (
@@ -25,6 +26,14 @@ const App: React.FC = () => {
         element={
           <ProtectedRoute>
             <User />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/create-user"
+        element={
+          <ProtectedRoute>
+            <Create />
           </ProtectedRoute>
         }
       />

@@ -1,13 +1,15 @@
-import React from 'react';
-import type { MenuProps } from 'antd';
-import { Layout, Menu, theme, Dropdown, Space } from 'antd';
-import { useNavigate } from 'react-router-dom';  // Import inside the component
-import SidebarItems from '../constants/SidebarItems';
-import { UserOutlined, DownOutlined } from '@ant-design/icons';
+import React from "react";
+import type { MenuProps } from "antd";
+import { Layout, Menu, theme, Dropdown, Space } from "antd";
+import { Outlet, useNavigate } from "react-router-dom"; // Import inside the component
+import SidebarItems from "../constants/SidebarItems";
+import { UserOutlined, DownOutlined } from "@ant-design/icons";
 
 const { Header, Content, Footer, Sider } = Layout;
 
-const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const navigate = useNavigate(); // Moved inside the component
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -20,25 +22,27 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
 
   const menu = (
     <Menu>
-      <Menu.Item onClick={handleLogout} key="1">Logout</Menu.Item>
+      <Menu.Item onClick={handleLogout} key="1">
+        Logout
+      </Menu.Item>
       <Menu.Item key="2">Profile</Menu.Item>
     </Menu>
   );
 
   // Sidebar style
   const siderStyle: React.CSSProperties = {
-    overflow: 'auto',
-    height: '100vh',
-    position: 'fixed',
+    overflow: "auto",
+    height: "100vh",
+    position: "fixed",
     insetInlineStart: 0,
     top: 0,
     bottom: 0,
-    scrollbarWidth: 'thin',
-    scrollbarGutter: 'stable',
+    scrollbarWidth: "thin",
+    scrollbarGutter: "stable",
   };
 
   // Handle menu item clicks
-  const onMenuClick: MenuProps['onClick'] = (menuItem) => {
+  const onMenuClick: MenuProps["onClick"] = (menuItem) => {
     const selectedItem = SidebarItems.find((item) => item.key === menuItem.key);
     if (selectedItem?.path) {
       navigate(selectedItem.path); // Navigate to the corresponding path
@@ -49,7 +53,14 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
     <Layout hasSider>
       <Sider style={siderStyle}>
         {/* Sidebar Header */}
-        <div style={{ padding: '16px', color: 'white', textAlign: 'center', fontWeight: 'bold' }}>
+        <div
+          style={{
+            padding: "16px",
+            color: "white",
+            textAlign: "center",
+            fontWeight: "bold",
+          }}
+        >
           My Dashboard
         </div>
 
@@ -57,7 +68,7 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={["1"]}
           onClick={onMenuClick} // Attach the click handler
           items={SidebarItems.map((item) => ({
             key: item.key,
@@ -69,8 +80,14 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
 
       <Layout style={{ marginLeft: 200 }}>
         {/* Header */}
-        <Header style={{ background: '#fff', padding: '0 20px' }}>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+        <Header style={{ background: "#fff", padding: "0 20px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}
+          >
             {/* User Profile Dropdown */}
             <Dropdown overlay={menu}>
               <a onClick={(e) => e.preventDefault()}>
@@ -85,21 +102,21 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
         </Header>
 
         {/* Content */}
-        <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+        <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
           <div
             style={{
               padding: 24,
-              textAlign: 'center',
+              textAlign: "center",
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
             }}
           >
-            {children}
+            <Outlet />
           </div>
         </Content>
 
         {/* Footer */}
-        <Footer style={{ textAlign: 'center' }}>
+        <Footer style={{ textAlign: "center" }}>
           Ant Design ©{new Date().getFullYear()} Created by Ant UED
         </Footer>
       </Layout>
